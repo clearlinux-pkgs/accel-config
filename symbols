@@ -31,8 +31,10 @@ libaccel-config.so.1:accfg_device_get_configurable
 libaccel-config.so.1:accfg_device_get_ctx
 libaccel-config.so.1:accfg_device_get_devname
 libaccel-config.so.1:accfg_device_get_errors
+libaccel-config.so.1:accfg_device_get_event_log_size
 libaccel-config.so.1:accfg_device_get_first
 libaccel-config.so.1:accfg_device_get_gen_cap
+libaccel-config.so.1:accfg_device_get_iaa_cap
 libaccel-config.so.1:accfg_device_get_id
 libaccel-config.so.1:accfg_device_get_ims_size
 libaccel-config.so.1:accfg_device_get_max_batch_size
@@ -53,6 +55,7 @@ libaccel-config.so.1:accfg_device_get_type_str
 libaccel-config.so.1:accfg_device_get_version
 libaccel-config.so.1:accfg_device_group_get_by_id
 libaccel-config.so.1:accfg_device_is_active
+libaccel-config.so.1:accfg_device_set_event_log_size
 libaccel-config.so.1:accfg_device_set_read_buffer_limit
 libaccel-config.so.1:accfg_device_type_validate
 libaccel-config.so.1:accfg_device_wq_get_by_id
@@ -66,7 +69,9 @@ libaccel-config.so.1:accfg_engine_get_id
 libaccel-config.so.1:accfg_engine_get_next
 libaccel-config.so.1:accfg_engine_set_group_id
 libaccel-config.so.1:accfg_get_log_priority
+libaccel-config.so.1:accfg_group_get_batch_progress_limit
 libaccel-config.so.1:accfg_group_get_ctx
+libaccel-config.so.1:accfg_group_get_desc_progress_limit
 libaccel-config.so.1:accfg_group_get_device
 libaccel-config.so.1:accfg_group_get_device_id
 libaccel-config.so.1:accfg_group_get_devname
@@ -78,6 +83,8 @@ libaccel-config.so.1:accfg_group_get_read_buffers_reserved
 libaccel-config.so.1:accfg_group_get_traffic_class_a
 libaccel-config.so.1:accfg_group_get_traffic_class_b
 libaccel-config.so.1:accfg_group_get_use_read_buffer_limit
+libaccel-config.so.1:accfg_group_set_batch_progress_limit
+libaccel-config.so.1:accfg_group_set_desc_progress_limit
 libaccel-config.so.1:accfg_group_set_read_buffers_allowed
 libaccel-config.so.1:accfg_group_set_read_buffers_reserved
 libaccel-config.so.1:accfg_group_set_traffic_class_a
@@ -108,8 +115,10 @@ libaccel-config.so.1:accfg_wq_get_max_transfer_size
 libaccel-config.so.1:accfg_wq_get_mode
 libaccel-config.so.1:accfg_wq_get_next
 libaccel-config.so.1:accfg_wq_get_occupancy
+libaccel-config.so.1:accfg_wq_get_op_config
 libaccel-config.so.1:accfg_wq_get_priority
 libaccel-config.so.1:accfg_wq_get_priv
+libaccel-config.so.1:accfg_wq_get_prs_disable
 libaccel-config.so.1:accfg_wq_get_size
 libaccel-config.so.1:accfg_wq_get_state
 libaccel-config.so.1:accfg_wq_get_threshold
@@ -124,7 +133,10 @@ libaccel-config.so.1:accfg_wq_set_group_id
 libaccel-config.so.1:accfg_wq_set_max_batch_size
 libaccel-config.so.1:accfg_wq_set_max_transfer_size
 libaccel-config.so.1:accfg_wq_set_mode
+libaccel-config.so.1:accfg_wq_set_op_config
+libaccel-config.so.1:accfg_wq_set_op_config_str
 libaccel-config.so.1:accfg_wq_set_priority
+libaccel-config.so.1:accfg_wq_set_prs_disable
 libaccel-config.so.1:accfg_wq_set_size
 libaccel-config.so.1:accfg_wq_set_str_driver_name
 libaccel-config.so.1:accfg_wq_set_str_mode
