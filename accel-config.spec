@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : accel-config
-Version  : 4.1
-Release  : 4
-URL      : https://github.com/intel/idxd-config/archive/accel-config-v4.1/idxd-config-4.1.tar.gz
-Source0  : https://github.com/intel/idxd-config/archive/accel-config-v4.1/idxd-config-4.1.tar.gz
+Version  : 4.1.1
+Release  : 5
+URL      : https://github.com/intel/idxd-config/archive/accel-config-v4.1.1/idxd-config-4.1.1.tar.gz
+Source0  : https://github.com/intel/idxd-config/archive/accel-config-v4.1.1/idxd-config-4.1.1.tar.gz
 Summary  : Configure accfg subsystem devices
 Group    : Development/Tools
 License  : CC0-1.0 GPL-2.0 LGPL-2.1 MIT
@@ -70,8 +70,11 @@ license components for the accel-config package.
 
 
 %prep
-%setup -q -n idxd-config-accel-config-v4.1
-cd %{_builddir}/idxd-config-accel-config-v4.1
+%setup -q -n idxd-config-accel-config-v4.1.1
+cd %{_builddir}/idxd-config-accel-config-v4.1.1
+pushd ..
+cp -a idxd-config-accel-config-v4.1.1 buildavx2
+popd
 
 %build
 ## build_prepend content
@@ -81,7 +84,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1692698632
+export SOURCE_DATE_EPOCH=1693956210
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -93,19 +96,33 @@ export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonl
 %configure --disable-static --disable-docs
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+## build_prepend content
+bash autogen.sh
+## build_prepend end
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --disable-docs
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
+cd ../buildavx2;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1692698632
+export SOURCE_DATE_EPOCH=1693956210
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/accel-config
 cp %{_builddir}/idxd-config-accel-config-v%{version}/Documentation/COPYING %{buildroot}/usr/share/package-licenses/accel-config/cac5aabfbd6b7df58097e0f2efc0021152a31247 || :
-cp %{_builddir}/idxd-config-accel-config-v%{version}/Documentation/copyright.txt %{buildroot}/usr/share/package-licenses/accel-config/286b18774f60cb7349670ad94a0614927f9a83e2 || :
 cp %{_builddir}/idxd-config-accel-config-v%{version}/LICENSE_GPL_2_0 %{buildroot}/usr/share/package-licenses/accel-config/216629914867066060ebd55c489c17839d566b02 || :
 cp %{_builddir}/idxd-config-accel-config-v%{version}/accfg/lib/LICENSE_LGPL_2_1 %{buildroot}/usr/share/package-licenses/accel-config/b6bf700828e326ac460dadc88c246f9ee43a29d4 || :
 cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/array_size/LICENSE %{buildroot}/usr/share/package-licenses/accel-config/3e8117303a7ac9ce341dc761b8a4f5ac3696e0a3 || :
@@ -117,13 +134,18 @@ cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/list/LICENSE %{buildro
 cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/minmax/LICENSE %{buildroot}/usr/share/package-licenses/accel-config/3e8117303a7ac9ce341dc761b8a4f5ac3696e0a3 || :
 cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/short_types/LICENSE %{buildroot}/usr/share/package-licenses/accel-config/3e8117303a7ac9ce341dc761b8a4f5ac3696e0a3 || :
 cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/str/LICENSE %{buildroot}/usr/share/package-licenses/accel-config/3e8117303a7ac9ce341dc761b8a4f5ac3696e0a3 || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/accel-config
 /usr/bin/accel-config
 
 %files dev
@@ -134,6 +156,7 @@ cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/str/LICENSE %{buildroo
 
 %files lib
 %defattr(-,root,root,-)
+/V3/usr/lib64/libaccel-config.so.1.0.0
 /usr/lib64/libaccel-config.so.1
 /usr/lib64/libaccel-config.so.1.0.0
 
@@ -141,7 +164,6 @@ cp %{_builddir}/idxd-config-accel-config-v%{version}/ccan/str/LICENSE %{buildroo
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/accel-config/216629914867066060ebd55c489c17839d566b02
 /usr/share/package-licenses/accel-config/2807f3f1c4cb33b214defc4c7ab72f7e4e70a305
-/usr/share/package-licenses/accel-config/286b18774f60cb7349670ad94a0614927f9a83e2
 /usr/share/package-licenses/accel-config/3e8117303a7ac9ce341dc761b8a4f5ac3696e0a3
 /usr/share/package-licenses/accel-config/b6bf700828e326ac460dadc88c246f9ee43a29d4
 /usr/share/package-licenses/accel-config/cac5aabfbd6b7df58097e0f2efc0021152a31247
