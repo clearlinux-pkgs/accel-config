@@ -6,10 +6,10 @@
 # autospec commit: 250a666
 #
 Name     : accel-config
-Version  : 4.1.2
-Release  : 6
-URL      : https://github.com/intel/idxd-config/archive/accel-config-v4.1.2/idxd-config-4.1.2.tar.gz
-Source0  : https://github.com/intel/idxd-config/archive/accel-config-v4.1.2/idxd-config-4.1.2.tar.gz
+Version  : 4.1.3
+Release  : 7
+URL      : https://github.com/intel/idxd-config/archive/accel-config-v4.1.3/idxd-config-4.1.3.tar.gz
+Source0  : https://github.com/intel/idxd-config/archive/accel-config-v4.1.3/idxd-config-4.1.3.tar.gz
 Summary  : Configure accfg subsystem devices
 Group    : Development/Tools
 License  : CC0-1.0 GPL-2.0 LGPL-2.1 MIT
@@ -72,10 +72,10 @@ license components for the accel-config package.
 
 
 %prep
-%setup -q -n idxd-config-accel-config-v4.1.2
-cd %{_builddir}/idxd-config-accel-config-v4.1.2
+%setup -q -n idxd-config-accel-config-v4.1.3
+cd %{_builddir}/idxd-config-accel-config-v4.1.3
 pushd ..
-cp -a idxd-config-accel-config-v4.1.2 buildavx2
+cp -a idxd-config-accel-config-v4.1.3 buildavx2
 popd
 
 %build
@@ -86,7 +86,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1698183671
+export SOURCE_DATE_EPOCH=1698397612
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -141,7 +141,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1698183671
+export SOURCE_DATE_EPOCH=1698397612
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/accel-config
 cp %{_builddir}/idxd-config-accel-config-v%{version}/Documentation/COPYING %{buildroot}/usr/share/package-licenses/accel-config/cac5aabfbd6b7df58097e0f2efc0021152a31247 || :
